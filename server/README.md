@@ -18,14 +18,7 @@ npm install
 
 * execute npm start to execute the server
 ```
-npm install 
-```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
+npm start 
 ```
 
 ## Authors
