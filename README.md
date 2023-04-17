@@ -3,14 +3,8 @@
 
 # My Profile Server
 
-> Write a project description
+> Sample Backend with JWT token
 
-## Prerequisites
-
-This project requires NodeJS (version 8 or later) and NPM.
-[Node](http://nodejs.org/) and [NPM](https://npmjs.org/) are really easy to install.
-To make sure you have them available on your machine,
-try running the following command.
 
 ```sh
 $ npm -v && node -v
@@ -20,9 +14,6 @@ v8.16.0
 
 ## Table of contents
 
-- [Project Name](#project-name)
-  - [Prerequisites](#prerequisites)
-  - [Table of contents](#table-of-contents)
   - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Usage](#usage)
