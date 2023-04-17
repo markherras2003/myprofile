@@ -23,6 +23,15 @@ npm start
 
 ### Accessing API
 
+* Login Authentication [POST]
+* {
+"email" : "larrymark2003@gmail.com",
+"password" : "mark1234"
+}
+```
+http://localhost:3001/auth/login
+```
+
 * Get The Users Data [GET]
 ```
 http://localhost:3001/users/:id
