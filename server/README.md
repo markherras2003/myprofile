@@ -54,7 +54,7 @@ http://localhost:3001/auth/register
 
 Contributors names and contact info
 
-Larry Mark B. Somocot
+Larry Mark B. Somocor
 
 ## Version History
 
