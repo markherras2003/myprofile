@@ -1,4 +1,4 @@
-# Project Title
+# My Profile Server
 
 Server for myprofile.
 
