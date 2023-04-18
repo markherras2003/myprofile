@@ -66,6 +66,7 @@ export default {
     const handleUpdate = async () => {
       userId = localStorage.getItem("_id");
       // Execute put request to update the user data on the server
+      try {
       const response = await axios.put(`/auth/users/${userId}`, {
         firstName: firstName.value,
         lastName: lastName.value,
@@ -74,12 +75,12 @@ export default {
       isSuccessful.value = true;
       console.log(response);
       router.push(`/`);
-      try {
+
       } catch (error) {
         // Unknown error occurred
-
-        if (error.response && error.response.status === 409) {
+        if (error.response.status === 409) {
           // Email address already registered
+          isSuccessful.value = false;
           errorMessage.value = "This email address is already registered.";
         } else {
           isSuccessful.value = false;
