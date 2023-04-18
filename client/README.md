@@ -10,7 +10,7 @@
 ```sh
 npm install
 ```
-in axios.js the base URL is 
+in axios.js the base URL is for the backend is
 ```sh
 axios.defaults.baseURL = 'http://localhost:3001';
 ```
