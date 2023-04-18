@@ -62,7 +62,6 @@ export default defineComponent({
         return Promise.reject(error);
       }
     );
-
     const created = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -86,9 +85,7 @@ export default defineComponent({
         // Handle error here, e.g. show error message to user
       }
     };
-
     created();
-
     return { user, handleLogout, user: computed(() => store.state.user) };
   },
 });
