@@ -21,7 +21,7 @@ export const register = async (req, res) => {
       // Return an error response to the client
       return res.status(409).json({ message: 'Email address already registered' });
     }
-
+    
     const newUser = new User({
       firstName,
       lastName,
@@ -42,7 +42,6 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email: email });
     // Email Does not exist
     if (!user) return res.status(400).json({ msg: "User does not exist. " });
-
     // Check user password if match
     const isMatch = await bcrypt.compare(password, user.password);
     // return invalid credentials if not match

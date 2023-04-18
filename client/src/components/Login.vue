@@ -41,8 +41,9 @@ export default {
     const store = useStore();
     const invalidPassword = ref(false);
 
-const handleSubmit = async () => {
+    const handleSubmit = async () => {
       try {
+        let invalidPassword = false;
         const response = await axios.post("/auth/login", {
           email: email.value,
           password: password.value,
@@ -53,6 +54,9 @@ const handleSubmit = async () => {
           localStorage.setItem("_id", response.data.user._id);
           store.dispatch("user", response.data);
           router.push("/");
+        } else if (response.status === 400 && response.data.msg) {
+          invalidPassword.value = true;
+          throw new Error(response.data.msg);
         } else if (response.data && response.data.error) {
           invalidPassword.value = true;
           throw new Error(response.data.error);
@@ -61,9 +65,8 @@ const handleSubmit = async () => {
           throw new Error("Invalid response");
         }
       } catch (error) {
-        console.error(error);
-        // Display error message to user
-         invalidPassword.value = true;
+        //console.log(error); // add this line
+        invalidPassword.value = true;
       }
     };
 

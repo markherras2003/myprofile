@@ -46,9 +46,9 @@
         placeholder="Confirm Password"
       />
     </div>
-      <span v-if="isMatchPassword" class="text-danger w-100 mt-3">
+      <div v-if="isMatchPassword" class="alert alert-warning w-100 mt-3">
         Passwords do not match.
-      </span>
+      </div>
     <button class="btn btn-primary w-100 mt-3">Sign Up</button>
     <div v-if="errorMessage" class="alert alert-danger mt-3">
       {{ errorMessage }}
@@ -76,10 +76,13 @@ export default defineComponent({
 const handleSubmit = async () => {
    errorMessage.value = '';
   try {
+    // Check Confirmation password
     if (password.value !== confirmPassword.value) {
         isMatchPassword.value = true;
         return;
       }
+
+    // Execute post value in server
     const response = await axios.post("/auth/register", {
       firstName: firstName.value,
       lastName: lastName.value,
@@ -99,7 +102,6 @@ const handleSubmit = async () => {
   }
 }
 };
-
     return {
       firstName,
       lastName,
