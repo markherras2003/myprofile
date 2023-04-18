@@ -74,6 +74,7 @@ export default defineComponent({
     const isMatchPassword = ref(false);
 
 const handleSubmit = async () => {
+   errorMessage.value = '';
   try {
     if (password.value !== confirmPassword.value) {
         isMatchPassword.value = true;
@@ -86,16 +87,16 @@ const handleSubmit = async () => {
       password: password.value,
     });
     console.log(response);
-    //router.push("/login");
-  } catch (error) {
-    console.log(error);
-        console.log(response);
-    if (error.response && error.response.data) {
-      errorMessage.value = error.response.data.message;
-    } else {
-      errorMessage.value = "An unknown error occurred.";
-    }
+    router.push("/login");
+} catch (error) {
+  if (error.response && error.response.status === 409) {
+    // Email address already registered
+    errorMessage.value = 'This email address is already registered.';
+  } else {
+    // Unknown error occurred
+    errorMessage.value = 'An unknown error occurred.';
   }
+}
 };
 
     return {

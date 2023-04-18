@@ -64,7 +64,6 @@ const handleSubmit = async () => {
         console.error(error);
         // Display error message to user
          invalidPassword.value = true;
-        //alert("Invalid email or password");
       }
     };
 

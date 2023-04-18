@@ -13,7 +13,7 @@ const store = createStore({
   },
   actions: {
     user({ commit }, user) {
-      console.log('check if executed for login/logout state:', user);
+      //console.log('check if executed for login/logout state:', user);
       commit('user', { user });
     }
   }
