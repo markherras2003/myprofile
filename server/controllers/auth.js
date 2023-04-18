@@ -63,12 +63,25 @@ export const updateUser = async (req, res) => {
     const {
       firstName,
       lastName,
+      email,
     } = req.body;
-   
+
     const updatedUser = {
       firstName,
       lastName,
+      email,
     };
+
+    // Check if the email address is already registered
+    const existingUser = await User.findOne({
+      email: req.body.email,
+      _id: { $ne: req.params._id },
+    });
+    if (existingUser) {
+      // Return an error response to the client
+      return res.status(409).json({ message: 'Email address already registered' });
+    }
+
     const savedUser = await User.findByIdAndUpdate(req.params._id, updatedUser, { new: true });
     if (!savedUser) {
       // Return an error response if the user is not found

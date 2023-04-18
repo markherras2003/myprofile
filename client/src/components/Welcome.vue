@@ -21,11 +21,22 @@
             placeholder="Lastname"
           />
         </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            class="form-control"
+            v-model="email"
+            placeholder="Email"
+          />
+        </div>
         <div v-if="isSuccessful" class="alert alert-warning w-100 mt-3">
           Data Update Succesfully.
         </div>
-
         <button class="btn btn-primary w-100 mt-3">Update Value</button>
+        <div v-if="errorMessage" class="alert alert-danger mt-3">
+          {{ errorMessage }}
+        </div>
       </form>
     </div>
 
@@ -44,18 +55,21 @@ export default {
   setup() {
     const firstName = ref(null);
     const lastName = ref(null);
-    const userId = ref(null);
+    const email = ref(null);
+    let userId = ref(null);
     const router = useRouter();
     const user = ref(null);
     const store = useStore();
+    const errorMessage = ref("");
     const isSuccessful = ref(false);
 
     const handleUpdate = async () => {
-      let userId = localStorage.getItem("_id");
+      userId = localStorage.getItem("_id");
       // Execute put request to update the user data on the server
       const response = await axios.put(`/auth/users/${userId}`, {
         firstName: firstName.value,
         lastName: lastName.value,
+        email: email.value,
       });
       isSuccessful.value = true;
       console.log(response);
@@ -63,9 +77,15 @@ export default {
       try {
       } catch (error) {
         // Unknown error occurred
-         isSuccessful.value = false;
-        errorMessage.value = "An unknown error occurred.";
-        console.log(error);
+
+        if (error.response && error.response.status === 409) {
+          // Email address already registered
+          errorMessage.value = "This email address is already registered.";
+        } else {
+          isSuccessful.value = false;
+          errorMessage.value = "An unknown error occurred.";
+          //console.log(error);
+        }
       }
     };
 
@@ -80,6 +100,7 @@ export default {
       );
       firstName.value = response.data.firstName;
       lastName.value = response.data.lastName;
+      email.value = response.data.email;
       user.value = response.data;
       console.log(response);
     });
@@ -89,8 +110,11 @@ export default {
     return {
       firstName,
       lastName,
+      email,
       user,
+      userId,
       currentUser,
+      errorMessage,
       handleUpdate,
       isSuccessful,
     };
