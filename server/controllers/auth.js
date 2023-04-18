@@ -22,7 +22,7 @@ export const register = async (req, res) => {
       password: passwordHash,
     });
     const savedUser = await newUser.save();
-    res.status(201).json(savedUser);
+    res.status(200).json(savedUser);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
