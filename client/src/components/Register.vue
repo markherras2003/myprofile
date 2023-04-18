@@ -46,9 +46,9 @@
         placeholder="Confirm Password"
       />
     </div>
-      <div v-if="isMatchPassword" class="alert alert-warning w-100 mt-3">
-        Passwords do not match.
-      </div>
+    <div v-if="isMatchPassword" class="alert alert-warning w-100 mt-3">
+      Passwords do not match.
+    </div>
     <button class="btn btn-primary w-100 mt-3">Sign Up</button>
     <div v-if="errorMessage" class="alert alert-danger mt-3">
       {{ errorMessage }}
@@ -73,35 +73,34 @@ export default defineComponent({
     const errorMessage = ref("");
     const isMatchPassword = ref(false);
 
-const handleSubmit = async () => {
-   errorMessage.value = '';
-  try {
-    // Check Confirmation password
-    if (password.value !== confirmPassword.value) {
-        isMatchPassword.value = true;
-        return;
+    const handleSubmit = async () => {
+      errorMessage.value = "";
+      try {
+        // Check Confirmation password
+        if (password.value !== confirmPassword.value) {
+          isMatchPassword.value = true;
+          return;
+        }
+        // Execute post value in server
+        const response = await axios.post("/auth/register", {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          email: email.value,
+          password: password.value,
+        });
+        console.log(response);
+        router.push("/login");
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          // Email address already registered
+          errorMessage.value = "This email address is already registered.";
+        } else {
+          // Unknown error occurred
+          errorMessage.value = "An unknown error occurred.";
+          console.log(error);
+        }
       }
-
-    // Execute post value in server
-    const response = await axios.post("/auth/register", {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value,
-      password: password.value,
-    });
-    console.log(response);
-    router.push("/login");
-} catch (error) {
-  if (error.response && error.response.status === 409) {
-    // Email address already registered
-    errorMessage.value = 'This email address is already registered.';
-  } else {
-    // Unknown error occurred
-    errorMessage.value = 'An unknown error occurred.';
-    console.log(error);
-  }
-}
-};
+    };
     return {
       firstName,
       lastName,
@@ -110,7 +109,7 @@ const handleSubmit = async () => {
       handleSubmit,
       errorMessage,
       confirmPassword,
-      isMatchPassword
+      isMatchPassword,
     };
   },
 });

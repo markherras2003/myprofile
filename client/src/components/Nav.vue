@@ -11,13 +11,11 @@
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="!user">
           <li class="nav-item">
             <router-link to="/login" class="nav-link" aria-current="page"
-              >Login</router-link
-            >
+              >Login</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/register" class="nav-link" aria-current="page"
-              >Sign Up</router-link
-            >
+              >Sign Up</router-link>
           </li>
         </ul>
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="user">
@@ -82,13 +80,10 @@ export default defineComponent({
         store.dispatch("user", response?.data);
       } catch (error) {
         console.log("err->", error.response.data);
-        // Handle error here, e.g. show error message to user
       }
     };
     created();
-    return { user, 
-    handleLogout, 
-    user: computed(() => store.state.user) };
+    return { user, handleLogout, user: computed(() => store.state.user) };
   },
 });
 </script>
