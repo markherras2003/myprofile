@@ -21,11 +21,40 @@ npm install
 npm start 
 ```
 
+### Accessing API
+
+* Login Authentication [POST]
+* {
+"email" : "larrymark2003@gmail.com",
+"password" : "mark1234"
+}
+```
+http://localhost:3001/auth/login
+```
+
+* Get The Users Data [GET]
+```
+http://localhost:3001/users/:id
+```
+* Register The User [POST]
+* {
+	"firstName": "Larry Mark",
+	"lastName" : "Somocor",
+	"email": "larrymark2003@gmail.com",
+	"password" : "mark1234"
+}
+```
+http://localhost:3001/auth/register 
+```
+
+
+
+
 ## Authors
 
 Contributors names and contact info
 
-Larry Mark B. Somocot
+Larry Mark B. Somocor
 
 ## Version History
 
