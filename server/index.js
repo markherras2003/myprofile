@@ -32,7 +32,7 @@ app.use("/auth", authRoutes);
 // Routers for Users with ID
 app.use("/users", userRoutes);
 
-
+ 
 /* Mongoose Connection to MongoDB */
 const PORT = process.env.PORT || 6001;
 mongoose
