@@ -58,10 +58,8 @@ export default {
           invalidPassword.value = true;
           throw new Error(response.data.msg);
         } else if (response.data && response.data.error) {
-          invalidPassword.value = true;
           throw new Error(response.data.error);
         } else {
-          invalidPassword.value = true;
           throw new Error("Invalid response");
         }
       } catch (error) {
