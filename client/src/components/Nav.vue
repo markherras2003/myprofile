@@ -86,7 +86,9 @@ export default defineComponent({
       }
     };
     created();
-    return { user, handleLogout, user: computed(() => store.state.user) };
+    return { user, 
+    handleLogout, 
+    user: computed(() => store.state.user) };
   },
 });
 </script>
