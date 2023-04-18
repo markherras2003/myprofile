@@ -38,11 +38,15 @@ export const login = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     // Email Does not exist
-    if (!user) return res.status(400).json({ msg: "User does not exist. " });
+    if (!user) {
+      return res.status(400).json({ msg: "User does not exist. " });
+    }
     // Check user password if match
     const isMatch = await bcrypt.compare(password, user.password);
     // return invalid credentials if not match
-    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Invalid credentials. " });
+    }
     //execute jwt token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
