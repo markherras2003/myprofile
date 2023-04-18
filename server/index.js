@@ -5,24 +5,15 @@ import dotenv from "dotenv";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
-import { register } from "./controllers/auth.js";
-
-
 
 dotenv.config();
 const app = express();
 app.use(express.json());
-
-
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 
-
 // allow all origins for development
 app.use(cors());
-
-// Execute Register Data
-app.post("/auth/register", register);
 
 /* ROUTES */
 
@@ -32,7 +23,6 @@ app.use("/auth", authRoutes);
 // Routers for Users with ID
 app.use("/users", userRoutes);
 
- 
 /* Mongoose Connection to MongoDB */
 const PORT = process.env.PORT || 6001;
 mongoose

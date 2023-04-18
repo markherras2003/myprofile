@@ -11,17 +11,14 @@ export const register = async (req, res) => {
       email,
       password,
     } = req.body;
-
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
     // Check if the email address is already registered
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
       // Return an error response to the client
       return res.status(409).json({ message: 'Email address already registered' });
     }
-    
     const newUser = new User({
       firstName,
       lastName,
@@ -49,7 +46,6 @@ export const login = async (req, res) => {
     //execute jwt token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
     delete user.password;
-
     //output token and user data
     res.status(200).json({ token, user });
   } catch (err) {
