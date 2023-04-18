@@ -43,7 +43,6 @@ export default {
 
     const handleSubmit = async () => {
       try {
-        let invalidPassword = false;
         const response = await axios.post("/auth/login", {
           email: email.value,
           password: password.value,

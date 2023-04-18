@@ -1,6 +1,9 @@
 <template>
   <div>
-    <p v-if="user">Hello , Welcome {{ lastName }} , {{ firstName }}</p>
+    <div class="content" v-if="user">
+    <p >Hello , Welcome {{ lastName }} , {{ firstName }}
+    </p>
+    </div>
     <p v-if="!user">You are not logged in</p>
   </div>
 </template>
