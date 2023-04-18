@@ -6,8 +6,8 @@ import Register from "../components/Register.vue"
   <main>
     <div class="mycontent">
       <div class="container">
-        <div class="auth-wrapper">
-          <div class="auth-inner">
+        <div class="box-wrapper">
+          <div class="box-inner">
              <Register />
           </div>
         </div>

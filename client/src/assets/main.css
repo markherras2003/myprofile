@@ -2,7 +2,7 @@
   padding: 2rem;
 }
 
-.auth-inner {
+.box-inner {
   width: 450px;
   margin: auto;
   background: #ffffff;
@@ -12,12 +12,12 @@
   transition: all .3s;
 }
 
-#auth-wrapper .form-control:focus {
-  border-color:#167bff;
+#box-wrapper .form-control:focus {
+  border-color:#728eb3;
   box-shadow: none;
 }
 
-#auth-wrapper h3 {
+#box-wrapper h3 {
   text-align: center;
   margin: 0;
   line-height: 1;
@@ -25,5 +25,5 @@
 }
 
 body {
-  background: #1C8EF9 !important;
+  background: #344f68 !important;
 }

@@ -6,8 +6,8 @@ import Welcome from "../components/Welcome.vue"
   <main>
     <div class="mycontent">
       <div class="container">
-        <div class="auth-wrapper">
-          <div class="auth-inner">
+        <div class="box-wrapper">
+          <div class="box-inner">
             <Welcome />
           </div>
         </div>

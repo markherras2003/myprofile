@@ -95,6 +95,7 @@ const handleSubmit = async () => {
   } else {
     // Unknown error occurred
     errorMessage.value = 'An unknown error occurred.';
+    console.log(error);
   }
 }
 };
