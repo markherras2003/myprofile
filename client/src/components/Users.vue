@@ -103,7 +103,7 @@
           <tr
             v-for="(person, index) in paginatedPeople"
             :key="index"
-            :class="{ 'table-primary': person._id === userId, '': person._id !== userId }"
+            :class="{ 'table-primary': person._id === userId, '': userId=== null }"
           >
             <td>{{ person.lastName }}</td>
             <td>{{ person.firstName }}</td>
@@ -217,12 +217,15 @@ export default {
           email: email.value,
         });
         const updatedPerson = response.data;
-        const index = people.value.findIndex(
-          (person) => person._id === updatedPerson._id
-        );
-        people.value[index] = updatedPerson;
-        isSuccessful.value = true;
-        console.log(response);
+        const index = people.value.findIndex(person => person._id === updatedPerson._id);
+          if (index !== -1) {
+          people.value[index] = updatedPerson;
+          }
+          firstName.value = updatedPerson.firstName;
+          lastName.value = updatedPerson.lastName;
+          email.value = updatedPerson.email;
+          isSuccessful.value = true;
+          console.log(people.value);
       } catch (error) {
         // Unknown error occurred
         if (error.response.status === 409) {
