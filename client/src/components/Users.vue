@@ -1,104 +1,5 @@
 <template>
   <div>
-    <div class="mytable" v-if="!isEdit">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-8">
-            <form class="form-inline" @submit.prevent>
-              <div class="form-group mr-3 align-self-center">
-                <label for="page-size-select">Items per page:</label>
-              </div>
-              <div class="form-group mr-3">
-                <select
-                  class="form-control"
-                  id="page-size-select"
-                  v-model="pageSize"
-                >
-                  <option value="4">4</option>
-                  <option value="8">8</option>
-                  <option value="12">12</option>
-                </select>
-              </div>
-              <div class="form-group flex-grow">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search"
-                  v-model="search"
-                />
-              </div>
-              <button type="submit" class="btn btn-primary ml-3">
-                Add User
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <div class="table-responsive">
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Last Name</th>
-              <th>First Name</th>
-              <th>Email</th>
-              <th>Controls</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(person, index) in paginatedPeople" :key="index">
-              <td>{{ person.lastName }}</td>
-              <td>{{ person.firstName }}</td>
-              <td>{{ person.email }}</td>
-              <td>
-                <button
-                  type="button"
-                  class="btn btn-warning"
-                  @click="showEdit(person._id)"
-                >
-                  Edit
-                </button>
-
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  @click="showDeleteModal(person._id)"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <nav>
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{ disabled: currentPage === 1 }">
-            <button class="page-link" @click="currentPage -= 1">
-              Previous
-            </button>
-          </li>
-          <li
-            v-for="page in pages"
-            :key="page"
-            class="page-item"
-            :class="{ active: currentPage === page }"
-          >
-            <button class="page-link" @click="goToPage(page)">
-              {{ page }}
-            </button>
-          </li>
-          <li
-            class="page-item"
-            :class="{ disabled: currentPage === pageCount }"
-          >
-            <button class="page-link" @click="currentPage += 1">Next</button>
-          </li>
-        </ul>
-      </nav>
-    </div>
-
     <div class="content" v-if="isEdit">
       <form @submit.prevent="handleUpdate">
         <div class="form-group">
@@ -128,21 +29,128 @@
             placeholder="Email"
           />
         </div>
-        <div v-if="isSuccessful" class="alert alert-warning w-100 mt-3">
+        <div v-if="isSuccessful" class="alert alert-success w-100 mt-3">
           Data Update Succesfully.
         </div>
-        <button
-          class="btn btn-primary w-100 mt-3">
-          Update Value
-        </button>
-        <button class="btn btn-primary w-100 mt-3" @click="editCancel">
-          Cancel
-        </button>
+        <div class="row">
+          <div class="col-md-6">
+            <button class="btn btn-primary w-100 mt-3">Update Value</button>
+          </div>
+          <div class="col-md-6">
+            <button class="btn btn-warning w-100 mt-3" @click="editCancel">
+              Cancel
+            </button>
+          </div>
+        </div>
+
         <div v-if="errorMessage" class="alert alert-danger mt-3">
           {{ errorMessage }}
         </div>
       </form>
     </div>
+
+    <div class="mytable container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <form class="form-inline" @submit.prevent>
+            <div class="form-group mr-3 align-self-center">
+              <label for="page-size-select">Items per page:</label>
+            </div>
+            <div class="form-group mr-3">
+              <select
+                class="form-control"
+                id="page-size-select"
+                v-model="pageSize"
+                :disabled="isEdit"
+              >
+                <option value="4">4</option>
+                <option value="8">8</option>
+                <option value="12">12</option>
+              </select>
+            </div>
+            <div class="form-group flex-grow">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search"
+                :disabled="isEdit"
+                v-model="search"
+              />
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary ml-3"
+              :disabled="isEdit"
+            >
+              Add User
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Last Name</th>
+            <th>First Name</th>
+            <th>Email</th>
+            <th>Controls</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(person, index) in paginatedPeople"
+            :key="index"
+            :class="{ 'table-primary': person._id === userId, '': person._id !== userId }"
+          >
+            <td>{{ person.lastName }}</td>
+            <td>{{ person.firstName }}</td>
+            <td>{{ person.email }}</td>
+            <td>
+              <button
+                :disabled="isEdit"
+                type="button"
+                class="btn btn-warning"
+                @click="showEdit(person._id)"
+              >
+                Edit
+              </button>
+              <button
+                :disabled="isEdit"
+                type="button"
+                class="btn btn-danger"
+                @click="showDeleteModal(person._id)"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <nav v-if="!isEdit">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{ disabled: currentPage === 1 }">
+          <button class="page-link" @click="currentPage -= 1">Previous</button>
+        </li>
+        <li
+          v-for="page in pages"
+          :key="page"
+          class="page-item"
+          :class="{ active: currentPage === page }"
+        >
+          <button class="page-link" @click="goToPage(page)">
+            {{ page }}
+          </button>
+        </li>
+        <li class="page-item" :class="{ disabled: currentPage === pageCount }">
+          <button class="page-link" @click="currentPage += 1">Next</button>
+        </li>
+      </ul>
+    </nav>
 
     <p v-if="!user">You are not logged in</p>
   </div>
@@ -152,8 +160,6 @@
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
-const router = useRouter();
 
 export default {
   name: "Users",
@@ -172,6 +178,7 @@ export default {
     const currentPage = ref(1);
     const isEdit = ref(false);
     const isAdd = ref(false);
+    const selectedPerson = ref(null);
 
     onMounted(async () => {
       const response2 = await axios.get(
@@ -209,11 +216,13 @@ export default {
           lastName: lastName.value,
           email: email.value,
         });
+        const updatedPerson = response.data;
+        const index = people.value.findIndex(
+          (person) => person._id === updatedPerson._id
+        );
+        people.value[index] = updatedPerson;
         isSuccessful.value = true;
         console.log(response);
-        setTimeout(() => {
-          location.reload();
-        }, 2000);
       } catch (error) {
         // Unknown error occurred
         if (error.response.status === 409) {
@@ -231,19 +240,23 @@ export default {
     async function showEdit(id) {
       isEdit.value = true;
       localStorage.setItem("temp_id", id);
+      userId.value = id;
       const response = await axios.get(`/users/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       });
+      selectedPerson.value = people.value.find((person) => person._id === id);
       firstName.value = response.data.firstName;
       lastName.value = response.data.lastName;
       email.value = response.data.email;
+
       console.log(response);
     }
 
     const editCancel = () => {
       isEdit.value = false;
+      userId.value = null;
     };
 
     const filteredPeople = computed(() => {
@@ -299,6 +312,11 @@ export default {
 </script>
 
 <style scoped>
+.mytable {
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
 button {
   margin-right: 8px;
 }

@@ -97,7 +97,7 @@
                 ></path>
                 <polyline points="13 2 13 9 20 9"></polyline>
               </svg>
-              Orders
+              Dummy
             </a>
           </li>
           <li class="nav-item">
@@ -121,7 +121,7 @@
                   d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
                 ></path>
               </svg>
-              Products
+              Dummy
             </a>
           </li>
           <li class="nav-item">
@@ -188,7 +188,7 @@
                 <polyline points="2 17 12 22 22 17"></polyline>
                 <polyline points="2 12 12 17 22 12"></polyline>
               </svg>
-              Integrations
+              Dummy
             </a>
           </li>
         </ul>
@@ -241,7 +241,7 @@
                 <line x1="16" y1="17" x2="8" y2="17"></line>
                 <polyline points="10 9 9 9 8 9"></polyline>
               </svg>
-              Current month
+              Dummy
             </a>
           </li>
         </ul>
