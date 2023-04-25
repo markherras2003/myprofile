@@ -3,7 +3,7 @@ import Login from "../components/Login.vue"
 </script>
 
 <template>
-  <main>
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="mycontent">
       <div class="container">
         <div class="box-wrapper">

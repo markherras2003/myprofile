@@ -31,3 +31,45 @@ body {
 ul.nav.flex-column {
   padding: 25px;
 }
+
+
+
+.mytable {
+  margin-bottom: 25px;
+  margin-top: 25px;
+}
+
+button {
+  margin-right: 8px;
+}
+.table-responsive {
+  overflow-x: auto;
+}
+.form-inline {
+  display: flex;
+  align-items: center;
+}
+.form-inline .form-group {
+  margin-right: 10px;
+}
+.flex-grow {
+  flex-grow: 1;
+}
+
+input[type="search"] {
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  color: #333;
+  font-size: 16px;
+  padding: 8px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+input[type="search"]:focus {
+  border-color: #0077cc;
+  box-shadow: 0 0 8px #0077cc;
+  outline: none;
+}
