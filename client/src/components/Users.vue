@@ -329,47 +329,22 @@ export default {
         const newPerson = response.data;
         people.value.push(newPerson);
 
-        if (response.status === 409) {
-          isSuccessful.value = false;
-          errorMessage.value = "This email address is already registered.";
-        } else {
-          // Create new table row and append to table
-          const tableBody = document.querySelector("tbody");
-          const newRow = document.createElement("tr");
-          newRow.innerHTML = `
-            <td>${newPerson.lastName}</td>
-            <td>${newPerson.firstName}</td>
-            <td>${newPerson.email}</td>
-            <td>
-              <button
-                :disabled="isEdit || isAdd"
-                type="button"
-                class="btn btn-warning"
-                @click="showEdit(${newPerson._id})"
-              >
-                Edit
-              </button>
-              <button
-                :disabled="isEdit || isAdd"
-                type="button"
-                class="btn btn-danger"
-                @click="showDeleteModal(${newPerson._id})"
-              >
-                Delete
-              </button>
-            </td>
-          `;
-          tableBody.appendChild(newRow);
-        }
         firstName.value = "";
         lastName.value = "";
         email.value = "";
         isSuccessful.value = true;
         console.log(response.data);
+
+
       } catch (error) {
-        isSuccessful.value = false;
-        errorMessage.value = "An unknown error occurred.";
-        //console.log(error);
+        if (error.response.status === 409) {
+          isSuccessful.value = false;
+          errorMessage.value = "This email address is already registered.";
+        } else {
+          isSuccessful.value = false;
+          errorMessage.value = "An unknown error occurred.";
+          //console.log(error);
+        }
       }
     }
 
@@ -458,6 +433,7 @@ export default {
     }
 
     const showAdd = () => {
+      isSuccessful.value = false;
       isAdd.value = true;
       firstName.value = "";
       lastName.value = "";
