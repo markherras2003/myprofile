@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="content" v-if="isAdd">
       <form @submit.prevent="handleAdd">
         <div class="form-group">
@@ -30,6 +29,27 @@
             placeholder="Email"
           />
         </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            class="form-control"
+            v-model="password"
+            placeholder="Password"
+          />
+        </div>
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input
+            type="password"
+            class="form-control"
+            v-model="confirmPassword"
+            placeholder="Confirm Password"
+          />
+        </div>
+        <div v-if="isMatchPassword" class="alert alert-warning w-100 mt-3">
+          Passwords do not match.
+        </div>
         <div v-if="isSuccessful" class="alert alert-success w-100 mt-3">
           Data Update Succesfully.
         </div>
@@ -48,8 +68,6 @@
         </div>
       </form>
     </div>
-
-
 
     <div class="content" v-if="isEdit">
       <form @submit.prevent="handleUpdate">
@@ -239,8 +257,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </template>
   
@@ -256,6 +272,8 @@ export default {
     const firstName = ref(null);
     const lastName = ref(null);
     const email = ref(null);
+    const password = ref("");
+    const confirmPassword = ref("");
     let userId = ref(null);
     let myid = ref(null);
     const user = ref(null);
@@ -267,6 +285,7 @@ export default {
     const currentPage = ref(1);
     const isEdit = ref(false);
     const isAdd = ref(false);
+    const isMatchPassword = ref(false);
     const selectedPerson = ref(null);
 
     onMounted(async () => {
@@ -293,6 +312,66 @@ export default {
     const goToPage = (page) => {
       currentPage.value = parseInt(page);
     };
+
+    async function handleAdd() {
+      try {
+        // Check Confirmation password
+        if (password.value !== confirmPassword.value) {
+          isMatchPassword.value = true;
+          return;
+        }
+        const response = await axios.post(`/auth/register`, {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          email: email.value,
+          password: password.value,
+        });
+        const newPerson = response.data;
+        people.value.push(newPerson);
+
+        if (response.status === 409) {
+          isSuccessful.value = false;
+          errorMessage.value = "This email address is already registered.";
+        } else {
+          // Create new table row and append to table
+          const tableBody = document.querySelector("tbody");
+          const newRow = document.createElement("tr");
+          newRow.innerHTML = `
+            <td>${newPerson.lastName}</td>
+            <td>${newPerson.firstName}</td>
+            <td>${newPerson.email}</td>
+            <td>
+              <button
+                :disabled="isEdit || isAdd"
+                type="button"
+                class="btn btn-warning"
+                @click="showEdit(${newPerson._id})"
+              >
+                Edit
+              </button>
+              <button
+                :disabled="isEdit || isAdd"
+                type="button"
+                class="btn btn-danger"
+                @click="showDeleteModal(${newPerson._id})"
+              >
+                Delete
+              </button>
+            </td>
+          `;
+          tableBody.appendChild(newRow);
+        }
+        firstName.value = "";
+        lastName.value = "";
+        email.value = "";
+        isSuccessful.value = true;
+        console.log(response.data);
+      } catch (error) {
+        isSuccessful.value = false;
+        errorMessage.value = "An unknown error occurred.";
+        //console.log(error);
+      }
+    }
 
     async function handleUpdate() {
       myid = localStorage.getItem("temp_id");
@@ -338,7 +417,7 @@ export default {
         const index = people.value.findIndex(
           (person) => person._id === deletedPerson._id
         );
-          people.value.splice(index, 1);
+        people.value.splice(index, 1);
         isSuccessful.value = true;
         console.log(response.data);
       } catch (error) {
@@ -379,13 +458,14 @@ export default {
     }
 
     const showAdd = () => {
-      isAdd.value=true;
-      firstName.value='';
-      lastName.value='';
-      email.value='';
-    }
+      isAdd.value = true;
+      firstName.value = "";
+      lastName.value = "";
+      email.value = "";
+    };
 
     const editCancel = () => {
+      isSuccessful.value = false;
       isEdit.value = false;
       isAdd.value = false;
       userId.value = null;
@@ -421,6 +501,8 @@ export default {
       firstName,
       lastName,
       email,
+      password,
+      confirmPassword,
       user,
       userId,
       currentUser,
@@ -437,10 +519,12 @@ export default {
       isEdit,
       editCancel,
       handleUpdate,
+      handleAdd,
       isAdd,
       handleDelete,
       showDeleteModal,
-      showAdd
+      showAdd,
+      isMatchPassword,
     };
   },
 };
