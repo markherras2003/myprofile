@@ -339,7 +339,7 @@ export default {
       } catch (error) {
         if (error.response.status === 409) {
           isSuccessful.value = false;
-          errorMessage.value = "This email address is already registered.";
+          errorMessage.value = "This email address is already registered.d";
         } else {
           isSuccessful.value = false;
           errorMessage.value = "An unknown error occurred.";
